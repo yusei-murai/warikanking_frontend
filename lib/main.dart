@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:warikanking_frontend/providers/hide_password_provider.dart';
 import 'package:warikanking_frontend/views/accounts/signin_page.dart';
 import 'package:warikanking_frontend/views/accounts/signup_page.dart';
+import 'package:warikanking_frontend/views/pays/input_pay_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ChangeHidePassword()),
         ChangeNotifierProvider(create: (context) => SetSignupErrorMessage()),
         ChangeNotifierProvider(create: (context) => SetSigninErrorMessage()),
+        ChangeNotifierProvider(create: (context) => PaymentProvider()),
       ],
       child: MaterialApp(
         title: "warikanking",
@@ -29,7 +31,7 @@ class MyApp extends StatelessWidget {
               Theme.of(context).textTheme
           ),
         ),
-        home: SigninPage(),
+        home: InputPayPage(),
       ),
     );
   }

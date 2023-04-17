@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:warikanking_frontend/providers/hide_password_provider.dart';
-import 'package:warikanking_frontend/utils/api/accounts/accounts_api.dart';
+import 'package:warikanking_frontend/utils/apis/accounts/accounts_api.dart';
 import 'package:warikanking_frontend/views/accounts/signin_page.dart';
 
 class SetSignupErrorMessage with ChangeNotifier {

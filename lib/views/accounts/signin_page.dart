@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:warikanking_frontend/providers/hide_password_provider.dart';
-import 'package:warikanking_frontend/utils/api/accounts/accounts_api.dart';
+import 'package:warikanking_frontend/utils/apis/accounts/accounts_api.dart';
+import 'package:warikanking_frontend/utils/usecases/signin_usecase.dart';
 import 'package:warikanking_frontend/views/accounts/signup_page.dart';
 
 class SetSigninErrorMessage with ChangeNotifier {
@@ -68,11 +69,9 @@ class SigninPage extends StatelessWidget {
                     onPressed: () async {
                       if(emailController.text.isNotEmpty&&
                           passController.text.isNotEmpty) {
-                        var _result = await AccountsApi.getToken(emailController.text, passController.text);
-                        print(_result);
-                        if(_result != null){
-
-                        }else{
+                        //var _result = await AccountsApi.getToken(emailController.text, passController.text);
+                        var _result = await SigninUsecase.signinUsecase(emailController.text, passController.text);
+                        if(_result == null){
                           errorMsg.setErrorMessage("ログインに失敗しました");
                         }
                       }else{
