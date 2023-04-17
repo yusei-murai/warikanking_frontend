@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class AccountsApi{
   static Future<dynamic> getToken(String email, String password) async {
-    Uri url = Uri.parse('http://10.0.2.2:8000/api/v1/auth/jwt/create');
+    Uri url = Uri.parse('http://10.0.2.2:8000/apis/v1/auth/jwt/create');
     Map<String, String> headers = {'content-type': 'application/json'};
     String body = json.encode({
       'email': email,
@@ -22,7 +22,7 @@ class AccountsApi{
   }
 
   static Future<dynamic> createUser(String name, String email, String password) async {
-    Uri url = Uri.parse('http://10.0.2.2:8000/api/v1/auth/users');
+    Uri url = Uri.parse('http://10.0.2.2:8000/apis/v1/auth/users');
     Map<String, String> headers = {'content-type': 'application/json'};
     String body = json.encode({
       'name': name,
