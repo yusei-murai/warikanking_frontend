@@ -9,6 +9,7 @@ class EventListPage extends StatelessWidget {
     return Scaffold(
       body: StreamBuilder<QuerySnapshot>(
 
+
       ),
     )
   }
