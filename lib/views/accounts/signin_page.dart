@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:warikanking_frontend/providers/hide_password_provider.dart';
-import 'package:warikanking_frontend/utils/apis/accounts/accounts_api.dart';
-import 'package:warikanking_frontend/utils/usecases/signin_usecase.dart';
+import 'package:warikanking_frontend/usecases/signin_usecase.dart';
 import 'package:warikanking_frontend/views/accounts/signup_page.dart';
 
 class SetSigninErrorMessage with ChangeNotifier {

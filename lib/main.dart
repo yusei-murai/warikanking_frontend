@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:warikanking_frontend/providers/hide_password_provider.dart';
 import 'package:warikanking_frontend/views/accounts/signin_page.dart';
 import 'package:warikanking_frontend/views/accounts/signup_page.dart';
+import 'package:warikanking_frontend/views/events/event_list_page.dart';
 import 'package:warikanking_frontend/views/pays/input_pay_page.dart';
 
 void main() {
@@ -31,7 +32,7 @@ class MyApp extends StatelessWidget {
               Theme.of(context).textTheme
           ),
         ),
-        home: InputPayPage(),
+        home: EventListPage(),
       ),
     );
   }

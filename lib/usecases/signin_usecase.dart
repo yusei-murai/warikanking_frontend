@@ -1,5 +1,5 @@
-import 'package:warikanking_frontend/utils/apis/accounts/accounts_api.dart';
-import 'package:warikanking_frontend/utils/infras/secure_storage_infra.dart';
+import 'package:warikanking_frontend/apis/accounts_api.dart';
+import 'package:warikanking_frontend/infras/secure_storage_infra.dart';
 
 class SigninUsecase{
   static Future<dynamic> signinUsecase(String email, String password) async {
