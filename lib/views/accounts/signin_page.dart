@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:warikanking_frontend/providers/hide_password_provider.dart';
 import 'package:warikanking_frontend/usecases/signin_usecase.dart';
 import 'package:warikanking_frontend/views/accounts/signup_page.dart';
+import 'package:warikanking_frontend/views/screen.dart';
 
 class SetSigninErrorMessage with ChangeNotifier {
   String errorMsg = "";
@@ -72,6 +73,8 @@ class SigninPage extends StatelessWidget {
                         var _result = await SigninUsecase.signinUsecase(emailController.text, passController.text);
                         if(_result == null){
                           errorMsg.setErrorMessage("ログインに失敗しました");
+                        }else if(_result == true){
+                          Navigator.push(context,MaterialPageRoute(builder: (context) => Screen()));
                         }
                       }else{
                         errorMsg.setErrorMessage("入力項目に誤りがあります");

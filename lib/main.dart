@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:warikanking_frontend/providers/bottom_navigation_bar_provider.dart';
 import 'package:warikanking_frontend/providers/hide_password_provider.dart';
 import 'package:warikanking_frontend/views/accounts/signin_page.dart';
 import 'package:warikanking_frontend/views/accounts/signup_page.dart';
 import 'package:warikanking_frontend/views/events/event_list_page.dart';
-import 'package:warikanking_frontend/views/pays/input_pay_page.dart';
+import 'package:warikanking_frontend/views/pays/new_pay_page.dart';
+import 'package:warikanking_frontend/views/screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -22,7 +24,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ChangeHidePassword()),
         ChangeNotifierProvider(create: (context) => SetSignupErrorMessage()),
         ChangeNotifierProvider(create: (context) => SetSigninErrorMessage()),
-        ChangeNotifierProvider(create: (context) => PaymentProvider()),
+        ChangeNotifierProvider(create: (context) => SelectedUsersProvider()),
+        ChangeNotifierProvider(create: (context) => BottomNavigationBarProvider()),
       ],
       child: MaterialApp(
         title: "warikanking",
@@ -32,7 +35,7 @@ class MyApp extends StatelessWidget {
               Theme.of(context).textTheme
           ),
         ),
-        home: EventListPage(),
+        home: Screen(),
       ),
     );
   }

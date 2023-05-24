@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:warikanking_frontend/apis/accounts_api.dart';
 
 class AppBarUtils {
   static AppBar createAppbar(BuildContext context,TextButton textButton) {
@@ -31,5 +32,16 @@ class SnackBarUtils{
         content: Text(msg),
       ),
     );
+  }
+}
+
+class Userutils{
+  static Future<String?> getUsername(String userId) async {
+    var result = await AccountsApi.getUsername(userId);
+    if(result != null){
+      return result;
+    }else{
+      return null;
+    }
   }
 }

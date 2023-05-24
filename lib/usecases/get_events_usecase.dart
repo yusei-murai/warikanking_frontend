@@ -6,6 +6,9 @@ class GetEventsUsecase{
       var _result = await EventsApi.getEvents(userId);
       return _result;
     }catch(e){
+      if(e=="login"){
+        return "login";
+      }
       return null;
     }
   }
