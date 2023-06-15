@@ -8,6 +8,7 @@ import 'package:warikanking_frontend/utils/widget_utils.dart';
 import 'package:warikanking_frontend/views/accounts/my_page.dart';
 import 'package:warikanking_frontend/views/accounts/qr_page.dart';
 import 'package:warikanking_frontend/views/events/event_list_page.dart';
+import 'package:warikanking_frontend/views/events/new_event_page.dart';
 
 class Screen extends StatelessWidget {
   List<Widget> pageList = [
@@ -113,10 +114,10 @@ class Screen extends StatelessWidget {
           backgroundColor: Colors.white,
           child: const Icon(Icons.add, color: Colors.green,),
           onPressed: () {
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => NewEventPage()),
-            // );
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => NewEventPage()),
+            );
           }
       ),
     );

@@ -1,17 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+import 'package:warikanking_frontend/apis/events_api.dart';
 import 'package:warikanking_frontend/apis/pays_api.dart';
+import 'package:warikanking_frontend/utils/function_utils.dart';
 import 'package:warikanking_frontend/utils/widget_utils.dart';
 import 'package:warikanking_frontend/views/events/adjust_event_page.dart';
 import 'package:warikanking_frontend/views/pays/new_pay_page.dart';
 
-class EventPage extends StatelessWidget {
+class EventPage extends StatefulWidget {
   final String eventId;
   final String eventName;
 
   const EventPage({Key? key,required this.eventId,required this.eventName}) : super(key: key);
 
+  @override
+  State<EventPage> createState() => _EventPageState();
+}
+
+class _EventPageState extends State<EventPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +30,7 @@ class EventPage extends StatelessWidget {
           const SizedBox(height: 10,),
           Center(
             child: Text(
-              eventName,
+              widget.eventName,
               style: const TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
             ),
           ),
@@ -37,8 +45,10 @@ class EventPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => NewPayPage()),
-                  );
+                    MaterialPageRoute(builder: (context) => NewPayPage(widget.eventId)),
+                  ).then((value) {
+                    setState(() {});
+                  });
                 },
                 child: const Text('支払い追加'),
               ),
@@ -49,7 +59,7 @@ class EventPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => AdjustEventPage(eventId: eventId, eventName: eventName)),
+                    MaterialPageRoute(builder: (context) => AdjustEventPage(eventId: widget.eventId, eventName: widget.eventName)),
                   );
                 },
                 child: const Text('精算'),
@@ -65,8 +75,8 @@ class EventPage extends StatelessWidget {
           ),
           const Divider(),
           Expanded(
-            child: StreamBuilder<List?>(
-              stream: Stream.fromFuture(PaysApi.getPays(eventId)),
+            child: FutureBuilder(
+              future: PaysApi.getPays(widget.eventId),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot){
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -78,8 +88,8 @@ class EventPage extends StatelessWidget {
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context,index){
                         return ListTile(
-                          title: Text(snapshot.data![index]['name']), subtitle: Text(snapshot.data![index]['name']),
-                          trailing: Text(DateFormat('yyyy/M/d').format(DateTime.parse(snapshot.data![index]['created_at'])),style: const TextStyle(fontSize: 12.0)),
+                          title: Text(snapshot.data![index]['name']), subtitle: Text("${snapshot.data![index]['user']['user_name']} - ${DateFormat('yyyy/M/d').format(DateTime.parse(snapshot.data![index]['created_at']))}"),
+                          trailing: Text("¥${Shape.toYenFormat(snapshot.data![index]['amount_pay'])}",style: const TextStyle(fontSize: 20.0)),
                         );
                       }
                   );

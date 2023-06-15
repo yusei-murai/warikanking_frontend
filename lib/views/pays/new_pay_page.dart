@@ -1,18 +1,78 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
+import 'package:warikanking_frontend/apis/accounts_api.dart';
+import 'package:warikanking_frontend/apis/pays_api.dart';
 import 'package:warikanking_frontend/utils/widget_utils.dart';
 
-class NewPayPage extends StatelessWidget {
+class NewPayPage extends StatefulWidget {
+  final String eventId;
+
+  NewPayPage(this.eventId);
+
+  @override
+  _NewPayPageState createState() => _NewPayPageState();
+}
+
+class _NewPayPageState extends State<NewPayPage> {
+  String? selectedUser;
+  Set<String> checkboxState = {};
+  final payNameInputController = TextEditingController();
+  final amountPayInputController = TextEditingController();
+
+  late Future<Map<String, dynamic>?> usersFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    usersFuture = fetchUser(widget.eventId);
+  }
+
+  Future<Map<String, dynamic>?> fetchUser(String eventId) async {
+    var result = await AccountsApi.getUsersDictByEventId(eventId);
+    if(result != null){
+      return result;
+    }else{
+      return null;
+    }
+  }
+
+  bool isCorrectCheckbox(List checkboxState,String selectedUser){
+    if (checkboxState.contains(selectedUser) && checkboxState.isNotEmpty){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarUtils.createAppbar(context,
-          TextButton(
-              onPressed: (){
-
-              },
-              child: const Text("立て替え")
-          )
+      appBar: AppBarUtils.createAppbar(
+        context,
+        TextButton(
+          onPressed: () async {
+            if (payNameInputController.text.isNotEmpty &&
+                selectedUser != null &&
+                isCorrectCheckbox(checkboxState.toList(), selectedUser!) &&
+                checkboxState.isNotEmpty &&
+                amountPayInputController.text.isNotEmpty) {
+              final amountPay = int.tryParse(amountPayInputController.text);
+              if(amountPay != null){
+                var result = await PaysApi.createPays({
+                  "name": payNameInputController.text,
+                  "event_id": widget.eventId,
+                  "user_id": selectedUser!,
+                  "related_users": checkboxState.toList(),
+                  "amount_pay": int.parse(amountPayInputController.text),
+                });
+                if(result is Map<String, dynamic> && mounted){
+                  Navigator.pop(context);
+                }
+              }
+            }
+          },
+          child: const Text("立て替え"),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -28,25 +88,44 @@ class NewPayPage extends StatelessWidget {
                       style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                     ),
                     TextFormField(
+                      controller: payNameInputController,
                       decoration: const InputDecoration(
                         hintText: '立て替えたもの',
                       ),
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      //validator: DescriptionValidator.validate,
                     ),
                     const SizedBox(height: 20.0),
                     const Text(
                       '立て替えた人',
                       style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                     ),
-                    DropdownButton<String>(
-                      items: <String>['ユーザA', 'ユーザB', 'ユーザC']
-                          .map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      onChanged: (String? newValue) {
-
+                    FutureBuilder<Map<String, dynamic>?>(
+                      future: usersFuture,
+                      builder: (BuildContext context, AsyncSnapshot<Map<String, dynamic>?> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('エラー: ${snapshot.error}');
+                        } else if (snapshot.hasData) {
+                          final users = snapshot.data!;
+                          return DropdownButton<String>(
+                            value: selectedUser,
+                            items: users.entries.map((MapEntry<String, dynamic> entry) {
+                              return DropdownMenuItem<String>(
+                                value: entry.key,
+                                child: Text(entry.value),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                selectedUser = newValue;
+                              });
+                            },
+                          );
+                        } else {
+                          return const Text("ユーザデータがありません");
+                        }
                       },
                     ),
                     const SizedBox(height: 20.0),
@@ -54,22 +133,42 @@ class NewPayPage extends StatelessWidget {
                       '関わった人（支払い者含む）',
                       style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                     ),
-                    Consumer<SelectedUsersProvider>(
-                      builder: (context, selectedUsersProvider, _) {
-                        return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: selectedUsersProvider.userList.length,
-                          itemBuilder: (context, index) {
-                            final user = selectedUsersProvider.userList[index];
-                            return CheckboxListTile(
-                              title: Text(user),
-                              value: selectedUsersProvider.isSelected(user),
-                              onChanged: (bool? newValue) {
-                                selectedUsersProvider.toggleUserSelection(user);
-                              },
-                            );
-                          },
-                        );
+                    FutureBuilder<Map<String, dynamic>?>(
+                      future: usersFuture,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else if (snapshot.hasData) {
+                          final users = snapshot.data!;
+                          return ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: users.length,
+                            itemBuilder: (context, index) {
+                              final userId = users.keys.elementAt(index);
+                              final userName = users.values.elementAt(index);
+                              final isChecked = checkboxState.contains(userId);
+
+                              return CheckboxListTile(
+                                title: Text(userName),
+                                value: isChecked,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    if (value != null && value) {
+                                      checkboxState.add(userId);
+                                    } else {
+                                      checkboxState.remove(userId);
+                                    }
+                                  });
+                                },
+                              );
+                            },
+                          );
+                        } else {
+                          return const Text("ユーザデータがありません");
+                        }
                       },
                     ),
                     const Text(
@@ -77,7 +176,11 @@ class NewPayPage extends StatelessWidget {
                       style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
                     ),
                     TextFormField(
+                      controller: amountPayInputController,
                       keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
                       decoration: const InputDecoration(
                         hintText: '金額を入力してください',
                       ),
@@ -90,22 +193,5 @@ class NewPayPage extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class SelectedUsersProvider with ChangeNotifier {
-  List<String> _selectedUsers = [];
-
-  List<String> get userList => ['ユーザX', 'ユーザY', 'ユーザZ'];
-
-  bool isSelected(String user) => _selectedUsers.contains(user);
-
-  void toggleUserSelection(String user) {
-    if (_selectedUsers.contains(user)) {
-      _selectedUsers.remove(user);
-    } else {
-      _selectedUsers.add(user);
-    }
-    notifyListeners();
   }
 }

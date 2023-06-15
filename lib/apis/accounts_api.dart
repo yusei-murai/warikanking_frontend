@@ -58,4 +58,18 @@ class AccountsApi{
       return null;
     }
   }
+
+  static Future<Map<String, dynamic>?>? getUsersDictByEventId(String eventId) async {
+    Uri url = Uri.parse('http://10.0.2.2:8000/api/v1/events/$eventId/users/');
+    Map<String, String> headers = {'content-type': 'application/json; charset=utf8'};
+
+    http.Response response = await http.get(url, headers: headers);
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = jsonDecode(response.body);
+      return data;
+    } else {
+      return null;
+    }
+  }
 }

@@ -8,7 +8,7 @@ class PaysApi{
   static Future<List?> getPays(String eventId) async {
     try{
       Uri url = Uri.parse('http://10.0.2.2:8000/api/v1/events/$eventId/pays/');
-      Map<String, String> headers = {'content-type': 'application/json; charset=utf8'};
+      Map<String, String> headers = {'content-type': 'application/json; charset=UTF-8'};
 
       http.Response response = await http.get(url, headers: headers);
 
@@ -21,14 +21,14 @@ class PaysApi{
         throw Exception('Failed to load data');
       }
     }catch(e){
-      throw Exception('Failed to load data');
+      throw Exception(e);
     }
   }
 
   static Future<dynamic> createPays(Map<String,dynamic> requestPay) async {
     try{
       Uri url = Uri.parse('http://10.0.2.2:8000/api/v1/pays/');
-      Map<String, String> headers = {'content-type': 'application/json; charset=utf8'};
+      Map<String, String> headers = {'content-type': 'application/json; charset=UTF-8'};
       String body = json.encode({
         'name': requestPay['name'],
         'event_id': requestPay['event_id'],
@@ -40,7 +40,7 @@ class PaysApi{
       http.Response response = await http.post(url, headers: headers, body: body);
 
       if (response.statusCode == 201) {
-        List data = jsonDecode(response.body);
+        Map<String, dynamic> data = jsonDecode(response.body);
         return data;
       } if (response.statusCode == 403){
         return null;
@@ -50,7 +50,7 @@ class PaysApi{
         throw Exception('Failed to load data');
       }
     }catch(e){
-      throw Exception('Failed to load data');
+      throw Exception(e);
     }
   }
 }

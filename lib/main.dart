@@ -24,7 +24,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => ChangeHidePassword()),
         ChangeNotifierProvider(create: (context) => SetSignupErrorMessage()),
         ChangeNotifierProvider(create: (context) => SetSigninErrorMessage()),
-        ChangeNotifierProvider(create: (context) => SelectedUsersProvider()),
         ChangeNotifierProvider(create: (context) => BottomNavigationBarProvider()),
       ],
       child: MaterialApp(
