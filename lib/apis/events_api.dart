@@ -27,8 +27,9 @@ class EventsApi{
 
   static Future<List<dynamic>>? createEvents(Map<String,dynamic> requestEvent) async {
     try{
-      Uri url = Uri.parse('http://10.0.2.2:8000/api/v1/events/create/');
-      Map<String, String> headers = {'content-type': 'application/json; charset=utf8'};
+      Uri url = Uri.parse('http://10.0.2.2:8000/api/v1/events/');
+      Map<String, String> headers = {'content-type': 'application/json; charset=UTF-8'};
+
       String body = json.encode({
         'name': requestEvent['name'],
         'user_ids': requestEvent['user_ids']
@@ -44,7 +45,7 @@ class EventsApi{
         throw Exception(data[0]);
       }
     }catch(e){
-      throw Exception('Failed to load data');
+      throw Exception(e);
     }
   }
 

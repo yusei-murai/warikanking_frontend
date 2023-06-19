@@ -13,12 +13,13 @@ class NewEventPage extends StatelessWidget {
         onPressed: () async {
               var result = await EventsApi.createEvents({
                 "name": eventNameInputController.text,
+                "user_id": [],
               });
               if (result is Map<String, dynamic>) {
                 Navigator.pop(context);
               }
         },
-        child: const Text("立て替え"),
+        child: const Text("イベント登録"),
       ),
       ),
       body: Padding(
