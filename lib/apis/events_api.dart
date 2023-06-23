@@ -25,24 +25,24 @@ class EventsApi{
     }
   }
 
-  static Future<List<dynamic>>? createEvents(Map<String,dynamic> requestEvent) async {
+  static Future<Map<dynamic, dynamic>>? createEvents(Map<String,dynamic> requestEvent) async {
     try{
       Uri url = Uri.parse('http://10.0.2.2:8000/api/v1/events/');
       Map<String, String> headers = {'content-type': 'application/json; charset=UTF-8'};
 
       String body = json.encode({
         'name': requestEvent['name'],
-        'user_ids': requestEvent['user_ids']
+        'user_ids': requestEvent['user_ids'] ?? []
       });
 
       http.Response response = await http.post(url, headers: headers, body: body);
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         var data = jsonDecode(response.body);
         return data;
       } else {
         var data = jsonDecode(response.body);
-        throw Exception(data[0]);
+        throw Exception(data);
       }
     }catch(e){
       throw Exception(e);
