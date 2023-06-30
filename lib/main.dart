@@ -5,8 +5,6 @@ import 'package:warikanking_frontend/providers/bottom_navigation_bar_provider.da
 import 'package:warikanking_frontend/providers/hide_password_provider.dart';
 import 'package:warikanking_frontend/views/accounts/signin_page.dart';
 import 'package:warikanking_frontend/views/accounts/signup_page.dart';
-import 'package:warikanking_frontend/views/events/event_list_page.dart';
-import 'package:warikanking_frontend/views/pays/new_pay_page.dart';
 import 'package:warikanking_frontend/views/screen.dart';
 
 void main() {
