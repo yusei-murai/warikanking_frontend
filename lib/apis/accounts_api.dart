@@ -7,7 +7,7 @@ class AccountsApi{
   static Future<dynamic> getToken(String email, String password) async {
     try{
       Uri url = Uri.parse('http://10.0.2.2:8000/api/v1/auth/jwt/create');
-      Map<String, String> headers = {'content-type': 'application/json; charset=utf8'};
+      Map<String, String> headers = {'content-type': 'application/json; charset=UTF-8'};
       String body = json.encode({
         'email': email,
         'password': password,
@@ -26,11 +26,12 @@ class AccountsApi{
     }
   }
 
-  static Future<dynamic> createUser(String name, String email, String password) async {
+  static Future<dynamic> createUser(String name, String userIdentifier, String email, String password) async {
     Uri url = Uri.parse('http://10.0.2.2:8000/api/v1/auth/users');
-    Map<String, String> headers = {'content-type': 'application/json; charset=utf8'};
+    Map<String, String> headers = {'content-type': 'application/json; charset=UTF-8'};
     String body = json.encode({
       'name': name,
+      'user_identifier': userIdentifier,
       'email': email,
       'password': password,
     });
@@ -47,7 +48,7 @@ class AccountsApi{
 
   static Future<dynamic> getUsername(String userId) async {
     Uri url = Uri.parse('http://10.0.2.2:8000/api/v1/users/$userId/name/');
-    Map<String, String> headers = {'content-type': 'application/json; charset=utf8'};
+    Map<String, String> headers = {'content-type': 'application/json; charset=UTF-8'};
 
     http.Response response = await http.get(url, headers: headers);
 
@@ -61,7 +62,7 @@ class AccountsApi{
 
   static Future<Map<String, dynamic>?>? getUsersDictByEventId(String eventId) async {
     Uri url = Uri.parse('http://10.0.2.2:8000/api/v1/events/$eventId/users/');
-    Map<String, String> headers = {'content-type': 'application/json; charset=utf8'};
+    Map<String, String> headers = {'content-type': 'application/json; charset=UTF-8'};
 
     http.Response response = await http.get(url, headers: headers);
 

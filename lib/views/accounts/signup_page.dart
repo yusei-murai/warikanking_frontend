@@ -19,6 +19,7 @@ class SignupPage extends StatelessWidget {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController = TextEditingController();
+  final TextEditingController userIdentifierController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +59,16 @@ class SignupPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 10,),
                   TextFormField(
+                    controller: userIdentifierController,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    decoration: const InputDecoration(
+                      icon: Icon(Icons.mail),
+                      hintText: 'sample_user',
+                      labelText: 'ID',
+                    ),
+                  ),
+                  const SizedBox(height: 10,),
+                  TextFormField(
                     controller: passController,
                     obscureText: hidePassword.hidePassword,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -79,9 +90,10 @@ class SignupPage extends StatelessWidget {
                     onPressed: () async {
                       if(nameController.text.isNotEmpty&&
                           emailController.text.isNotEmpty&&
-                          passController.text.isNotEmpty
+                          passController.text.isNotEmpty&&
+                      userIdentifierController.text.isNotEmpty
                       ){
-                        var _result = await AccountsApi.createUser(nameController.text, emailController.text, passController.text);
+                        var _result = await AccountsApi.createUser(nameController.text, userIdentifierController.text, emailController.text, passController.text);
                       }else{
                         errorMsg.setErrorMessage("入力項目に誤りがあります");
                       }
