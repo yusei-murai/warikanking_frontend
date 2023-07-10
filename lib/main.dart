@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
               Theme.of(context).textTheme
           ),
         ),
-        home: Screen(),
+        home: SigninPage(),
       ),
     );
   }

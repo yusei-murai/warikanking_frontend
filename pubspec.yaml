@@ -43,6 +43,7 @@ dependencies:
   path:
   curved_navigation_bar: ^1.0.3
   intl:
+  qr_code_scanner: ^1.0.1
 
 dev_dependencies:
   flutter_test:

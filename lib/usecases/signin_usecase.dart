@@ -12,4 +12,14 @@ class SigninUsecase{
       return null;
     }
   }
+
+  static Future<dynamic> refresh(String refreshToken) async {
+    var _result = await AccountsApi.refresh(refreshToken);
+    if(_result != null){
+      await SecureStorageInfra.setStorage("access", _result['access']);
+      return true;
+    }else{
+      return null;
+    }
+  }
 }

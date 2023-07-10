@@ -26,6 +26,27 @@ class AccountsApi{
     }
   }
 
+  static Future<dynamic> refresh(String refreshToken) async {
+    try{
+      Uri url = Uri.parse('http://10.0.2.2:8000/api/v1/auth/jwt/refresh');
+      Map<String, String> headers = {'content-type': 'application/json; charset=UTF-8'};
+      String body = json.encode({
+        'refresh': refreshToken,
+      });
+
+      http.Response response = await http.post(url, headers: headers, body: body);
+
+      if (response.statusCode == 200) {
+        Map<String, dynamic> data = jsonDecode(response.body);
+        return data;
+      } else {
+        return null;
+      }
+    }catch(e){
+      return null;
+    }
+  }
+
   static Future<dynamic> createUser(String name, String userIdentifier, String email, String password) async {
     Uri url = Uri.parse('http://10.0.2.2:8000/api/v1/auth/users');
     Map<String, String> headers = {'content-type': 'application/json; charset=UTF-8'};

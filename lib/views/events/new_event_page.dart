@@ -30,7 +30,7 @@ class _NewEventPageState extends State<NewEventPage> {
             }
           }
         },
-        child: const Text("イベント登録"),
+        child: const Text("イベント作成"),
       ),
       ),
       body: Padding(

@@ -8,6 +8,7 @@ import 'package:warikanking_frontend/utils/widget_utils.dart';
 import 'package:warikanking_frontend/views/accounts/my_page.dart';
 import 'package:warikanking_frontend/views/accounts/qr_page.dart';
 import 'package:warikanking_frontend/views/events/event_list_page.dart';
+import 'package:warikanking_frontend/views/events/event_qr_page.dart';
 import 'package:warikanking_frontend/views/events/new_event_page.dart';
 
 class Screen extends StatelessWidget {
@@ -110,15 +111,32 @@ class Screen extends StatelessWidget {
           Icon(Icons.perm_identity_outlined),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Colors.white,
-          child: const Icon(Icons.add, color: Colors.green,),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => NewEventPage()),
-            );
-          }
+      floatingActionButton: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton(
+              heroTag:'qr',
+              backgroundColor: Colors.white,
+              child: const Icon(Icons.qr_code_scanner_outlined, color: Colors.green,),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => QrScanView()),
+                );
+              }
+          ),
+          const SizedBox(height: 20),
+          FloatingActionButton(
+              backgroundColor: Colors.white,
+              child: const Icon(Icons.add, color: Colors.green,),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => NewEventPage()),
+                );
+              }
+          ),
+        ],
       ),
     );
   }

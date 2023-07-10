@@ -8,7 +8,7 @@ class FriendsApi{
     try{
       Uri url = Uri.parse('http://10.0.2.2:8000/api/v1/users/$userId/friends/');
       var jwtToken = await SecureStorageInfra.readAllStorage();
-      Map<String, String> headers = {'content-type': 'application/json; charset=utf8','Authentication': 'JWT ${jwtToken['access']}'};
+      Map<String, String> headers = {'content-type': 'application/json; charset=utf8','Authorization': 'JWT ${jwtToken['access']}'};
 
       http.Response response = await http.get(url, headers: headers);
 
