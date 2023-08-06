@@ -18,6 +18,7 @@ class EventsApi{
         if (ref != true) {
           throw Exception('login');
         }
+        response = await http.get(url, headers: headers);
       }
       if (response.statusCode == 200) {
         List data = jsonDecode(response.body);
@@ -49,6 +50,7 @@ class EventsApi{
         if (ref != true) {
           throw Exception('login');
         }
+        response = await http.get(url, headers: headers);
       }
       if (response.statusCode == 201) {
         var data = jsonDecode(response.body);
@@ -73,6 +75,7 @@ class EventsApi{
         if (ref != true) {
           throw Exception('login');
         }
+        response = await http.get(url, headers: headers);
       }
       if (response.statusCode == 200) {
         List data = jsonDecode(response.body);

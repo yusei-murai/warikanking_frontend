@@ -11,7 +11,18 @@ import 'package:warikanking_frontend/views/events/event_list_page.dart';
 import 'package:warikanking_frontend/views/events/event_qr_page.dart';
 import 'package:warikanking_frontend/views/events/new_event_page.dart';
 
-class Screen extends StatelessWidget {
+class Screen extends StatefulWidget {
+  @override
+  State<Screen> createState() => _ScreenState();
+}
+
+class _ScreenState extends State<Screen> {
+  @override
+  void initState() {
+    super.initState();
+
+  }
+
   List<Widget> pageList = [
     EventListPage(),
     MyPage(),
@@ -36,33 +47,33 @@ class Screen extends StatelessWidget {
             //   //   );
             //   // },
             // ),
-            ListTile(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
-                  Icon(Icons.qr_code),
-                  Text(' QR'),
-                ],
-              ),
-              onTap: (){
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => QrPage()),
-                );
-              },
-            ),
-            ListTile(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: const [
-                  Icon(Icons.settings_outlined),
-                  Text(' 設定'),
-                ],
-              ),
-              onTap: (){
-
-              },
-            ),
+            // ListTile(
+            //   title: Row(
+            //     mainAxisAlignment: MainAxisAlignment.start,
+            //     children: const [
+            //       Icon(Icons.qr_code),
+            //       Text(' QR'),
+            //     ],
+            //   ),
+            //   onTap: (){
+            //     Navigator.push(
+            //       context,
+            //       MaterialPageRoute(builder: (context) => QrPage()),
+            //     );
+            //   },
+            // ),
+            // ListTile(
+            //   title: Row(
+            //     mainAxisAlignment: MainAxisAlignment.start,
+            //     children: const [
+            //       Icon(Icons.settings_outlined),
+            //       Text(' 設定'),
+            //     ],
+            //   ),
+            //   onTap: (){
+            //
+            //   },
+            // ),
             ListTile(
               onTap: (){
                 showDialog(
@@ -101,16 +112,16 @@ class Screen extends StatelessWidget {
         ),
       ),
       body: pageList[bottomNavigationBar.currentIndex],
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.greenAccent,
-        onTap:(index){
-          bottomNavigationBar.currentIndex = index;
-        } ,
-        items: const [
-          Icon(Icons.event),
-          Icon(Icons.perm_identity_outlined),
-        ],
-      ),
+      // bottomNavigationBar: CurvedNavigationBar(
+      //   backgroundColor: Colors.greenAccent,
+      //   onTap:(index){
+      //     bottomNavigationBar.currentIndex = index;
+      //   } ,
+      //   items: const [
+      //     Icon(Icons.event),
+      //     Icon(Icons.perm_identity_outlined),
+      //   ],
+      // ),
       floatingActionButton: Column(
         mainAxisSize: MainAxisSize.min,
         children: [

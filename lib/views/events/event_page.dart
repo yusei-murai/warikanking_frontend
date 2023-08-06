@@ -23,7 +23,12 @@ class _EventPageState extends State<EventPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarUtils.screenAppBar(context, ""),
+      appBar: AppBarUtils.createAppbar(context, TextButton(
+        onPressed: () async {
+
+        },
+        child: const Text("QR"),
+      ),),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

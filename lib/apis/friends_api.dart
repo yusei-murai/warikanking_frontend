@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:warikanking_frontend/infras/secure_storage_infra.dart';
 import 'package:http/http.dart' as http;
+import 'package:warikanking_frontend/usecases/signin_usecase.dart';
 
 class FriendsApi{
   static Future<List?> getFriends(String userId) async {
@@ -12,14 +13,18 @@ class FriendsApi{
 
       http.Response response = await http.get(url, headers: headers);
 
+      if (response.statusCode == 401) {
+        var ref = await SigninUsecase.refresh(jwtToken['refresh']);
+        if (ref != true) {
+          throw Exception('login');
+        }
+        response = await http.get(url, headers: headers);
+      }
       if (response.statusCode == 200) {
         List data = jsonDecode(response.body);
         return data;
-      } else if (response.statusCode == 403){
-        throw Exception('login');
-      } else {
-        throw Exception('Failed to load data');
       }
+      throw Exception('Failed to load data');
     }catch(e){
       throw Exception(e);
     }

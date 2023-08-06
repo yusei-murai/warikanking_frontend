@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:warikanking_frontend/infras/secure_storage_infra.dart';
+import 'package:warikanking_frontend/usecases/signin_usecase.dart';
 
 class AccountsApi{
   static Future<dynamic> getToken(String email, String password) async {
@@ -22,7 +23,7 @@ class AccountsApi{
         return null;
       }
     }catch(e){
-      return null;
+      throw Exception(e);
     }
   }
 
@@ -43,7 +44,7 @@ class AccountsApi{
         return null;
       }
     }catch(e){
-      return null;
+      throw Exception(e);
     }
   }
 
@@ -69,29 +70,43 @@ class AccountsApi{
 
   static Future<dynamic> getUsername(String userId) async {
     Uri url = Uri.parse('http://10.0.2.2:8000/api/v1/users/$userId/name/');
-    Map<String, String> headers = {'content-type': 'application/json; charset=UTF-8'};
+    var jwtToken = await SecureStorageInfra.readAllStorage();
+    Map<String, String> headers = {'content-type': 'application/json; charset=UTF-8','Authorization': 'JWT ${jwtToken['access']}'};
 
     http.Response response = await http.get(url, headers: headers);
 
-    if (response.statusCode == 201) {
+    if (response.statusCode == 401) {
+      var ref = await SigninUsecase.refresh(jwtToken['refresh']);
+      if (ref != true) {
+        throw Exception('login');
+      }
+      response = await http.get(url, headers: headers);
+    }
+    if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
       return data['user_id'];
-    } else {
-      return null;
     }
+    throw Exception('Failed to load data');
   }
 
   static Future<Map<String, dynamic>?>? getUsersDictByEventId(String eventId) async {
     Uri url = Uri.parse('http://10.0.2.2:8000/api/v1/events/$eventId/users/');
-    Map<String, String> headers = {'content-type': 'application/json; charset=UTF-8'};
+    var jwtToken = await SecureStorageInfra.readAllStorage();
+    Map<String, String> headers = {'content-type': 'application/json; charset=UTF-8','Authorization': 'JWT ${jwtToken['access']}'};
 
     http.Response response = await http.get(url, headers: headers);
 
+    if (response.statusCode == 401) {
+      var ref = await SigninUsecase.refresh(jwtToken['refresh']);
+      if (ref != true) {
+        throw Exception('login');
+      }
+      response = await http.get(url, headers: headers);
+    }
     if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
       return data;
-    } else {
-      return null;
     }
+    throw Exception('Failed to load data');
   }
 }
