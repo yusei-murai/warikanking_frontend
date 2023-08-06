@@ -7,6 +7,7 @@ import 'package:warikanking_frontend/apis/pays_api.dart';
 import 'package:warikanking_frontend/utils/function_utils.dart';
 import 'package:warikanking_frontend/utils/widget_utils.dart';
 import 'package:warikanking_frontend/views/events/adjust_event_page.dart';
+import 'package:warikanking_frontend/views/events/qr_page.dart';
 import 'package:warikanking_frontend/views/pays/new_pay_page.dart';
 
 class EventPage extends StatefulWidget {
@@ -25,7 +26,12 @@ class _EventPageState extends State<EventPage> {
     return Scaffold(
       appBar: AppBarUtils.createAppbar(context, TextButton(
         onPressed: () async {
-
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => QrPage(widget.eventId, widget.eventName)),
+          ).then((value) {
+            setState(() {});
+          });
         },
         child: const Text("QR"),
       ),),
@@ -94,7 +100,7 @@ class _EventPageState extends State<EventPage> {
                       itemBuilder: (context,index){
                         return ListTile(
                           title: Text(snapshot.data![index]['name']), subtitle: Text("${snapshot.data![index]['user']['user_name']} - ${DateFormat('yyyy/M/d').format(DateTime.parse(snapshot.data![index]['created_at']))}"),
-                          trailing: Text("¥${Shape.toYenFormat(snapshot.data![index]['amount_pay'])}",style: const TextStyle(fontSize: 20.0)),
+                          trailing: Text("¥${FunctionUtils.toYenFormat(snapshot.data![index]['amount_pay'])}",style: const TextStyle(fontSize: 20.0)),
                         );
                       }
                   );

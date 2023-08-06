@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 import 'package:warikanking_frontend/apis/accounts_api.dart';
 
 class AppBarUtils {
@@ -43,5 +44,15 @@ class Userutils{
     }else{
       return null;
     }
+  }
+}
+
+class QrUtils{
+  static QrImage qrImage(String str){
+    return QrImage(
+      data: str,
+      version: QrVersions.auto,
+      size: 200.0,
+    );
   }
 }
