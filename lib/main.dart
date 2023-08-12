@@ -5,6 +5,7 @@ import 'package:warikanking_frontend/providers/bottom_navigation_bar_provider.da
 import 'package:warikanking_frontend/providers/hide_password_provider.dart';
 import 'package:warikanking_frontend/views/accounts/signin_page.dart';
 import 'package:warikanking_frontend/views/accounts/signup_page.dart';
+import 'package:warikanking_frontend/views/events/join_event_page.dart';
 import 'package:warikanking_frontend/views/screen.dart';
 
 void main() {
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
               Theme.of(context).textTheme
           ),
         ),
-        home: SigninPage(),
+        home: JoinEventPage("d"),
       ),
     );
   }

@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:warikanking_frontend/apis/accounts_api.dart';
 import 'package:warikanking_frontend/providers/hide_password_provider.dart';
+import 'package:warikanking_frontend/utils/validators/input_validator.dart';
 import 'package:warikanking_frontend/views/accounts/signin_page.dart';
 
 class SetSignupErrorMessage with ChangeNotifier {
@@ -66,6 +67,7 @@ class SignupPage extends StatelessWidget {
                       hintText: 'sample_user',
                       labelText: 'ID',
                     ),
+
                   ),
                   const SizedBox(height: 10,),
                   TextFormField(

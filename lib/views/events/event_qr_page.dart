@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:warikanking_frontend/utils/widget_utils.dart';
+import 'package:warikanking_frontend/views/events/join_event_page.dart';
 
 class QrScanView extends StatefulWidget {
   const QrScanView({Key? key}) : super(key: key);
@@ -42,13 +43,10 @@ class _QrScanViewState extends State<QrScanView> {
   }
 
   Widget _buildQrView(BuildContext context) {
-    // For this example we check how width or tall the device is and change the scanArea and overlay accordingly.
     var scanArea = (MediaQuery.of(context).size.width < 400 ||
         MediaQuery.of(context).size.height < 400)
         ? 150.0
         : 300.0;
-    // To ensure the Scanner view is properly sizes after rotation
-    // we need to listen for Flutter SizeChanged notification and update controller
     return QRView(
       key: qrKey,
       onQRViewCreated: _onQRViewCreated,
@@ -67,7 +65,13 @@ class _QrScanViewState extends State<QrScanView> {
       this.controller = controller;
     });
     controller.scannedDataStream.listen((scanData) async {
-      print(scanData.code);
+      if(scanData.code != null){
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => JoinEventPage(scanData.code!)),
+        );
+        print(scanData.code);
+      }
     });
   }
 
@@ -75,7 +79,7 @@ class _QrScanViewState extends State<QrScanView> {
     log('${DateTime.now().toIso8601String()}_onPermissionSet $p');
     if (!p) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('no Permission')),
+        SnackBar(content: Text('権限がありません')),
       );
     }
   }
