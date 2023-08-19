@@ -26,7 +26,8 @@ class _EventListPageState extends State<EventListPage> {
 
   Future<void> _refreshEvents() async {
     setState(() {
-      _eventsFuture = GetEventsUsecase.getEvents("9b08b2d5-8bba-4a68-8d6c-e93d6ae274c7");
+      _eventsFuture = _fetchEventData(context);
+      //_eventsFuture = GetEventsUsecase.getEvents("9b08b2d5-8bba-4a68-8d6c-e93d6ae274c7");
     });
   }
 
@@ -91,4 +92,20 @@ class _EventListPageState extends State<EventListPage> {
       ),
     );
   }
+
+  Future<dynamic> _fetchEventData(BuildContext context) async {
+    try {
+      return await GetEventsUsecase.getEvents("9b08b2d5-8bba-4a68-8d6c-e93d6ae274c7");
+    } catch (e) {
+      print(e.toString());
+      if (e.toString() == 'login') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => SigninPage()),
+        );
+      }
+      rethrow;
+    }
+  }
+
 }

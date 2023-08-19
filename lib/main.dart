@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
               Theme.of(context).textTheme
           ),
         ),
-        home: JoinEventPage("d"),
+        home: Screen(),
       ),
     );
   }

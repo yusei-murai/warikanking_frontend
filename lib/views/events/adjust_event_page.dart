@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:warikanking_frontend/apis/accounts_api.dart';
 import 'package:warikanking_frontend/apis/events_api.dart';
 import 'package:warikanking_frontend/utils/widget_utils.dart';
+import 'package:warikanking_frontend/views/accounts/signin_page.dart';
 
 class AdjustEventPage extends StatelessWidget {
   final String eventId;
@@ -21,7 +22,7 @@ class AdjustEventPage extends StatelessWidget {
           ),
           Expanded(
             child: FutureBuilder<dynamic>(
-              future: EventsApi.adjustEvents(eventId),
+              future: _fetchEventData(context),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -96,5 +97,19 @@ class AdjustEventPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<dynamic> _fetchEventData(BuildContext context) async {
+    try {
+      return await EventsApi.adjustEvents(eventId);
+    } catch (e) {
+      if (e.toString() == 'login') {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => SigninPage()),
+        );
+      }
+      rethrow;
+    }
   }
 }

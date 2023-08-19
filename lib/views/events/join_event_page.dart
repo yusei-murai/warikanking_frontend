@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:warikanking_frontend/apis/events_api.dart';
 
 class JoinEventPage extends StatelessWidget {
   JoinEventPage(this.eventId);
@@ -26,8 +27,11 @@ class JoinEventPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 ElevatedButton(
-                  onPressed: () {
-                    // "はい" ボタンが押されたときの処理
+                  onPressed: () async {
+                    var _result = await EventsApi.addUserEvent([], eventId);
+                    if(_result == true){
+                      Navigator.popUntil(context, (route) => route.isFirst);
+                    }
                   },
                   child: const Text('キャンセル'),
                   style: ElevatedButton.styleFrom(backgroundColor: Colors.red),

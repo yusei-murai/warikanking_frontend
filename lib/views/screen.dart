@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:warikanking_frontend/providers/bottom_navigation_bar_provider.dart';
+import 'package:warikanking_frontend/usecases/signout_usecase.dart';
 import 'package:warikanking_frontend/utils/widget_utils.dart';
 import 'package:warikanking_frontend/views/accounts/my_page.dart';
 import 'package:warikanking_frontend/views/accounts/qr_page.dart';
+import 'package:warikanking_frontend/views/accounts/signin_page.dart';
 import 'package:warikanking_frontend/views/events/event_list_page.dart';
 import 'package:warikanking_frontend/views/events/event_qr_page.dart';
 import 'package:warikanking_frontend/views/events/new_event_page.dart';
@@ -90,8 +92,12 @@ class _ScreenState extends State<Screen> {
                           ),
                           CupertinoDialogAction(
                               child: const Text("ログアウト"),
-                              onPressed: () {
-
+                              onPressed: () async {
+                                await SignoutUsecase.signoutUsecase();
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => SigninPage()),
+                                );
                               }
                           ),
                         ],
