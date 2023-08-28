@@ -18,6 +18,8 @@ class FriendsApi{
         if (ref != true) {
           throw Exception('login');
         }
+        jwtToken = await SecureStorageInfra.readAllStorage();
+        headers = {'content-type': 'application/json; charset=UTF-8','Authorization': 'JWT ${jwtToken['access']}'};
         response = await http.get(url, headers: headers);
       }
       if (response.statusCode == 200) {

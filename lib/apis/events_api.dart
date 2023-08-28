@@ -12,12 +12,14 @@ class EventsApi{
       Map<String, String> headers = {'content-type': 'application/json; charset=UTF-8','Authorization': 'JWT ${jwtToken['access']}'};
 
       http.Response response = await http.get(url, headers: headers);
-
+      print(jwtToken['access']);
       if (response.statusCode == 401) {
         var ref = await SigninUsecase.refresh(jwtToken['refresh']);
         if (ref != true) {
           throw Exception('login');
         }
+        jwtToken = await SecureStorageInfra.readAllStorage();
+        headers = {'content-type': 'application/json; charset=UTF-8','Authorization': 'JWT ${jwtToken['access']}'};
         response = await http.get(url, headers: headers);
       }
       if (response.statusCode == 200) {
@@ -49,6 +51,8 @@ class EventsApi{
         if (ref != true) {
           throw Exception('login');
         }
+        jwtToken = await SecureStorageInfra.readAllStorage();
+        headers = {'content-type': 'application/json; charset=UTF-8','Authorization': 'JWT ${jwtToken['access']}'};
         response = await http.post(url, headers: headers, body: body);
       }
       if (response.statusCode == 201) {
@@ -78,6 +82,8 @@ class EventsApi{
         if (ref != true) {
           throw Exception('login');
         }
+        jwtToken = await SecureStorageInfra.readAllStorage();
+        headers = {'content-type': 'application/json; charset=UTF-8','Authorization': 'JWT ${jwtToken['access']}'};
         response = await http.patch(url, headers: headers, body: body);
       }
       if (response.statusCode == 200) {
@@ -102,6 +108,8 @@ class EventsApi{
         if (ref != true) {
           throw Exception('login');
         }
+        jwtToken = await SecureStorageInfra.readAllStorage();
+        headers = {'content-type': 'application/json; charset=UTF-8','Authorization': 'JWT ${jwtToken['access']}'};
         response = await http.get(url, headers: headers);
       }
       if (response.statusCode == 200) {
