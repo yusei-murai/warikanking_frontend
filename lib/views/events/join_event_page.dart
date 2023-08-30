@@ -28,7 +28,7 @@ class JoinEventPage extends StatelessWidget {
               children: [
                 ElevatedButton(
                   onPressed: () async {
-                    var _result = await EventsApi.addUserEvent([], eventId);
+                    var _result = await EventsApi.addUserEvent([], eventId, context);
                     if(_result == true){
                       Navigator.popUntil(context, (route) => route.isFirst);
                     }

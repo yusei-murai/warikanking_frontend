@@ -100,16 +100,6 @@ class AdjustEventPage extends StatelessWidget {
   }
 
   Future<dynamic> _fetchEventData(BuildContext context) async {
-    try {
-      return await EventsApi.adjustEvents(eventId);
-    } catch (e) {
-      if (e.toString() == 'login') {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => SigninPage()),
-        );
-      }
-      rethrow;
-    }
+    return await EventsApi.adjustEvents(eventId, context);
   }
 }

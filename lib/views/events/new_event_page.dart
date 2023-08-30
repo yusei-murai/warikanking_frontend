@@ -24,7 +24,7 @@ class _NewEventPageState extends State<NewEventPage> {
             var result = await EventsApi.createEvents({
               "name": eventNameInputController.text,
               "user_ids": checkboxState,
-            });
+            }, context);
             if (result is Map<String, dynamic>) {
               Navigator.pop(context);
             }
@@ -55,7 +55,7 @@ class _NewEventPageState extends State<NewEventPage> {
                       //validator: DescriptionValidator.validate,
                     ),
                     FutureBuilder<List<dynamic>?>(
-                      future: FriendsApi.getFriends("9b08b2d5-8bba-4a68-8d6c-e93d6ae274c7"),
+                      future: FriendsApi.getFriends("9b08b2d5-8bba-4a68-8d6c-e93d6ae274c7", context),
                       builder: (context, snapshot) {
                         if (snapshot.connectionState == ConnectionState.waiting) {
                           return const CircularProgressIndicator();

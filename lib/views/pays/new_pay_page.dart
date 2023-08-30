@@ -64,7 +64,7 @@ class _NewPayPageState extends State<NewPayPage> {
                   "user_id": selectedUser!,
                   "related_users": checkboxState.toList(),
                   "amount_pay": int.parse(amountPayInputController.text),
-                });
+                }, context);
                 if(result is Map<String, dynamic> && mounted){
                   Navigator.pop(context);
                 }

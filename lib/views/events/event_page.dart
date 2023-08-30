@@ -87,7 +87,7 @@ class _EventPageState extends State<EventPage> {
           const Divider(),
           Expanded(
             child: FutureBuilder(
-              future: PaysApi.getPays(widget.eventId),
+              future: PaysApi.getPays(widget.eventId, context),
               builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot){
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

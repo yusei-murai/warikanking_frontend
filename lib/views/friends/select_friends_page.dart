@@ -18,7 +18,7 @@ class _SelectFriendsPageState extends State<SelectFriendsPage> {
       appBar: AppBarUtils.screenAppBar(context, ""),
       body: SingleChildScrollView(
         child: FutureBuilder<List<dynamic>?>(
-          future: FriendsApi.getFriends("9b08b2d5-8bba-4a68-8d6c-e93d6ae274c7"),
+          future: FriendsApi.getFriends("9b08b2d5-8bba-4a68-8d6c-e93d6ae274c7", context),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const CircularProgressIndicator();
